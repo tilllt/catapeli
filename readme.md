@@ -16,7 +16,17 @@ Todo
 
 
 To see what it's doing:
+
+I'd suggest you install RVM (Ruby Version Manager) - so we are on the same page regarding Ruby versions etc.
+RVM can handle multiple Ruby versions and even switch to the needed version once it enters a directory containing the .ruby-version file.
+
+Get it here
+https://rvm.io/
+
+
+And then:
+
 bundle install # in the catapeli directory
 cd experimente
-edit glob.rb and add your path here "listing = scrubdirectory('/Volumes/Downloads')""
+edit glob.rb and add your path here "listing = scrubdirectory('/my/path/here')""
 ruby glob.rb
