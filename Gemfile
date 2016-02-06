@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'json', '1.7.7'
 gem 'rest-client', '1.6.7'
 gem 'sinatra', '1.4.5'
-gem 'ffprober', :path => '/Users/till/GitHub/'
+gem 'ffprober'
 gem 'rubytorrent'
 
 group :development do

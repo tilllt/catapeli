@@ -4,6 +4,8 @@ require 'ffprober'
 require 'json'
 require 'pp'
 
+class Metascrape
+
 def scrubdirectory(base_dir)
 	progress=0
 	dir_array=[]
@@ -34,9 +36,10 @@ def scrubdirectory(base_dir)
 		}
 	return dir_array
 end
+end
 
-listing = scrubdirectory('/Users/till/Downloads')
-#listing = scrubdirectory('/Volumes/Downloads')
+#listing = scrubdirectory('/Users/till/Downloads')
+listing = scrubdirectory('/Volumes/Downloads')
 
 listing.each do |item|
 	p "#{item["filetype"]} #{item["name"]}"
