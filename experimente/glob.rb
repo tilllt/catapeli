@@ -38,8 +38,6 @@ end
 listing = scrubdirectory('/Users/till/Downloads/movies')
 #listing = scrubdirectory('/Volumes/Downloads')
 
-pp listing
-
 listing.each do |item|
 	p "#{item["filetype"]} #{item["name"]}"
 end

@@ -26,7 +26,7 @@ https://rvm.io/
 
 And then:
 
-bundle install # in the catapeli directory
-cd experimente
-edit glob.rb and add your path here "listing = scrubdirectory('/my/path/here')""
-ruby glob.rb
+- bundle install # in the catapeli directory
+- cd experimente
+- edit glob.rb and add your path here "listing = scrubdirectory('/my/path/here')"
+- ruby glob.rb
