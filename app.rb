@@ -13,6 +13,12 @@ get '/' do
   { message: 'welcome to catapeli' }.to_json
 end
 
+post '/scan'
+end
+
+post '/rescan'
+end
+
 not_found do
   content_type :json
   halt 404, { error: 'URL not found' }.to_json
