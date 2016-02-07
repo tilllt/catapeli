@@ -3,6 +3,7 @@ require 'find'
 require 'ffprober'
 require 'json'
 require 'pp'
+require 'torrent-ruby'
 
 def scrubdirectory(base_dir)
 	progress=0
@@ -10,11 +11,10 @@ def scrubdirectory(base_dir)
 	dir_ignore=[".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"]
 	movie_ext=[".mkv",".avi",".mp4",".m4v",".mov",".flv",".ogg",".mpeg",".jpg",".mpg",".mp3"]
 		Find.find(base_dir) { |dir_entry| 
-
-			filetype=File.ftype(dir_entry)
 			if dir_ignore.any? {|skip| dir_entry.include? skip} or !File.exist?(dir_entry) 
 				Find.prune
 			else
+				filetype=File.ftype(dir_entry)
 				case filetype
 				when 'file'
 					if movie_ext.include? File.extname(dir_entry) and !File.zero?(dir_entry)
@@ -35,9 +35,11 @@ def scrubdirectory(base_dir)
 	return dir_array
 end
 
-listing = scrubdirectory('/Users/till/Downloads/movies')
+listing = scrubdirectory('/Volumes/Downloads/')
 #listing = scrubdirectory('/Volumes/Downloads')
 
-listing.each do |item|
-	p "#{item["filetype"]} #{item["name"]}"
+#pp listing
+
+File.open("scrubbed.json","w") do |f|
+  f.write(listing.to_json)
 end

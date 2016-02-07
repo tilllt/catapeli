@@ -4,7 +4,7 @@ gem 'json', '1.7.7'
 gem 'rest-client', '1.6.7'
 gem 'sinatra', '1.4.5'
 gem 'ffprober'
-gem 'rubytorrent'
+gem 'torrent-ruby'
 
 group :development do
   gem 'rerun'
