@@ -5,14 +5,19 @@ require 'json'
 require 'pp'
 require 'torrent-ruby'
 
-module Scrape (base_dir)
-	dir_ignore=[".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"]
+class Scrape
 
-def Basic(base_dir)
+def initialize(scrape_path, options={})
+	defaults = {
+		:dir_ignore=>[".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"]
+	}
+	options = defaults.merge(options)
+    # Instance variables   
+    @scrape_path = scrape_path  
 	progress=0
-	dir_array=[]
-		Find.find(base_dir) { |dir_entry| 
-			if dir_ignore.any? {|skip| dir_entry.include? skip} or !File.exist?(dir_entry) 
+	@json=[]
+		Find.find(scrape_path) { |dir_entry| 
+			if options[:dir_ignore].any? {|skip| dir_entry.include? skip} or !File.exist?(dir_entry) 
 				Find.prune
 			else
 				filetype=File.ftype(dir_entry)
@@ -23,11 +28,11 @@ def Basic(base_dir)
 					Find.prune
 				end	
 			end
-			dir_array.push(list_entry)
+			@json.push(list_entry)
 			STDOUT.write "\rscanning file no. #{progress}" 
 			progress += 1
 		}
-	return dir_array
+	return @json
 end
 
 def Mediaspecs(base_dir)
@@ -58,4 +63,6 @@ def Mediaspecs(base_dir)
 end
 
 def Xxhash(base_dir)
+end
+
 end
