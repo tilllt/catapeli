@@ -1,5 +1,5 @@
 require './lib/scrape'
 
-test = Scrape.new ('/Volumes/Downloads/')
+pp Scrape.hashsum ('/Users/till/Downloads/movies/')
 
-pp test
+#pp test
