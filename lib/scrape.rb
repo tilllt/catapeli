@@ -1,17 +1,19 @@
 require 'rubygems'
 require 'find'
 require 'ffprober'
-require 'json'
+#require 'json'
 require 'pp'
 require 'digest'
 
 class Scrape
+attr_reader :json
 
 def initialize(scrape_path, options={})
 	defaults = {
-		:dir_ignore => [".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"]
+		:dir_ignore => [".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"],
+		:qualifier_ext => [".mkv",".avi",".mp4",".m4v",".mov",".flv",".ogg",".mpeg",".jpg",".mpg",".mp3"]
 	}
-	options = defaults.merge(options)
+	@options = defaults.merge(options)
     # Instance variables   
     @scrape_path = scrape_path  
 	progress=0
@@ -23,7 +25,7 @@ def initialize(scrape_path, options={})
 				filetype=File.ftype(dir_entry)
 				case filetype
 				when 'file','directory'
-					list_entry = {"name" => dir_entry, "filetype"=>filetype,"filesize" => File.size(dir_entry),"creationdate" => File.ctime(dir_entry),"modificationdate" => File.mtime(dir_entry)}
+					list_entry = {"name" => dir_entry, "filetype"=>filetype,"filesize" => File.size(dir_entry),"cdate" => File.ctime(dir_entry),"mdate" => File.mtime(dir_entry)}
 				else 
 					Find.prune
 				end	
@@ -32,18 +34,11 @@ def initialize(scrape_path, options={})
 			STDOUT.write "\rscanning file no. #{progress}" 
 			progress += 1
 		}
-	return @json
 end
 
-def self.mediaspecs(scrape_path, options={})
-	defaults = {
-		:dir_ignore => [".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"],
-		:qualifier_ext => [".mkv",".avi",".mp4",".m4v",".mov",".flv",".ogg",".mpeg",".jpg",".mpg",".mp3"]
-	}
-	options = defaults.merge(options)
+def mediaspecs(scrape_path)
 	@scrape_path = scrape_path
 	progress=0
-	@json=[]
 		Find.find(@scrape_path) { |dir_entry| 
 			p "scanning: "+dir_entry
 			if options[:dir_ignore].any? {|skip| dir_entry.include? skip} or !File.exist?(dir_entry)
@@ -63,22 +58,15 @@ def self.mediaspecs(scrape_path, options={})
 					next
 				end	
 			end
-			@json.push(list_entry)
+			@json << list_entry
 			progress += 1
 			STDOUT.write "\rscanning file no. #{progress}" 
 		}
-	return @json
 end
 
-def self.hashsum(scrape_path, options={})
-	defaults = {
-		:dir_ignore => [".AppleDouble",".AppleDB",".AppleDesktop",".DS_Store", ".localized"],
-		:qualifier_ext => [".mkv",".avi",".mp4",".m4v",".mov",".flv",".ogg",".mpeg",".jpg",".mpg",".mp3"]
-	}
-	options = defaults.merge(options)
+def hashsum(scrape_path)
 	@scrape_path = scrape_path
 	progress=0
-	@json=[]
 	list_entry={}
 		Find.find(@scrape_path) { |dir_entry| 
 			p "scanning: "+dir_entry
@@ -101,11 +89,14 @@ def self.hashsum(scrape_path, options={})
 					next
 				end	
 			end
-			@json.push(list_entry)
+			@json << list_entry
 			progress += 1
 			STDOUT.write "\rscanning file no. #{progress}" 
 		}
-	return @json
+end
+
+def json
+	@json
 end
 
 

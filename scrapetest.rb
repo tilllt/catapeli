@@ -1,5 +1,7 @@
 require './lib/scrape'
 
-pp Scrape.hashsum ('/Users/till/Downloads/movies/')
+test = Scrape.new('/Users/till/Downloads/movies/')
+test.hashsum ('/Users/till/Downloads/movies/')
+test.mediaspecs('/Users/till/Downloads/movies/')
 
-#pp test
+pp test
